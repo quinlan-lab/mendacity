@@ -1,0 +1,41 @@
+pedigree:
+- &mgma 
+    id: Clara
+    status: unaffected
+    sex: female
+- &mgpa 
+    id: Sam
+    status: unaffected
+    sex: male
+- &dad
+    id: Fred
+    status: unaffected
+    sex: male
+- &mom
+    id: Alice
+    status: affected
+    sex: female
+    father: *mgpa
+    mother: *mgma
+- 
+    id: Bobby
+    status: affected
+    sex: male
+    father: *dad
+    mother: *mom
+
+cases:
+- name: gemini-issue-885
+  description: >
+      This test is translated from gemini/issues/885 which describes the pedigree as
+      the pedigree (from the perspective of the youngest family member) is: two maternal grandparents,
+      both unaffected; two parents, mom is affected, dad is unaffected; one daughter, who is affected.
+      The thought is that the mom has a de-novo that she passed to her children
+  alts: [[0, 0, 0, 1, 1]]
+  modes: ["autosomal-dominant", "de-novo"]
+
+- name: unaffected het
+  description: >
+      check that previous case is nulled by unaffected het.
+  alts: [[1, 0, 0, 1, 1]]
+  not-modes: ["autosomal-dominant", "de-novo"]

@@ -1,0 +1,37 @@
+pedigree:
+- &dad
+    id: Fred
+    status: unaffected
+    sex: male
+- &mom
+    id: Alice
+    status: unaffected
+    sex: female
+- 
+    id: Bobby
+    status: affected
+    sex: female
+    father: *dad
+    mother: *mom
+
+cases:
+-
+  name: ar-test
+  description: simple autosomal-recessive
+  alts: [[1, 1, 2]]
+  modes: ["autosomal-recessive"]
+  not-modes: ["autosomal-dominant"]
+-
+  name: comp-het-example
+  description: >
+      A compound het is simply a recessive that
+      requires 2 alts from different alleles.
+  modes: ["compound-het"]
+  alts: [[0, 1, 1], [1, 0, 1]]
+-
+  name: comp-het-exclude
+  description: >
+      This can't be compound het because the unaffected parent is homozygous
+      alternate for one of the alleles.
+  not-modes: ["compound-het"]
+  alts: [[0, 2, 1], [0, 0, 1]]
