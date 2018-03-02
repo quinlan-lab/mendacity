@@ -7,6 +7,8 @@ vcf_tmpl = """\
 ##FORMAT=<ID=AD,Number=A,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
 ##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
 ##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
 ##INFO=<ID=MENDACITY_MODES,Number=.,Type=String,Description="inheritance modes expected by mendacity">
 ##INFO=<ID=MENDACITY_NOT_MODES,Number=.,Type=String,Description="inheritance modes excluded by mendacity">
 ##contig=<ID=chr1,length=249250621,assembly=hg19>
@@ -36,9 +38,12 @@ class Sample(object):
 
 def gt(alt_count):
     ad = "%d,%d" % (10*(2-alt_count), 10*alt_count)
-    return ":".join((["0/0", "0/1", "1/1", "./."][alt_count],
-            ad,
-            "20"))
+    fields = []
+    fields.append(["0/0", "0/1", "1/1", "./."][alt_count])
+    if alt_count in (0, 1, 2):
+        fields.extend([ad, "20", "99", ["0,10,20", "10,0,20", "10,20,0"][alt_count]])
+
+    return ":".join(fields)
 
 
 class Pedigree(object):
@@ -67,7 +72,7 @@ class Pedigree(object):
         if not_inheritance_modes:
             info.append("MENDACITY_NOT_MODES=%s" % ",".join(not_inheritance_modes))
 
-        return "\t".join(map(str, ["chr1", position, ID, "T", "G", 50, "PASS", ";".join(info), "GT:AD:DP"] + sample_gts))
+        return "\t".join(map(str, ["chr1", position, ID, "T", "G", 50, "PASS", ";".join(info), "GT:AD:DP:GQ:PL"] + sample_gts))
 
     @property
     def tex(self):
@@ -138,7 +143,7 @@ def main(args=sys.argv[1:]):
 
     fh = open(a.prefix + ".vcf", 'w')
     fh.write(vcf_tmpl % "\t".join(p.sample_ids))
-    position=2345
+    position=55516888   # coding variant on chr1
     for i, case in enumerate(cases):
         for j, alt in enumerate(case['alts']):
             ID = "id%d_%d" % (i, j)
