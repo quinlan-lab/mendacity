@@ -100,9 +100,9 @@ class Pedigree(object):
         rm(prefix + ".aux")
         rm(prefix + ".log")
         rm(prefix + ".pdf")
-        with open(prefix + ".tex", "w") as fh:
-            for s in self.samples:
-                print s.tex()
+        #with open(prefix + ".tex", "w") as fh:
+        #    for s in self.samples:
+        #        print s.tex()
 
 
 def rm(path):

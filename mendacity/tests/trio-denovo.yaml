@@ -1,0 +1,35 @@
+pedigree:
+- &dad
+    id: Fred
+    status: unaffected
+    sex: male
+- &mom
+    id: Alice
+    status: unaffected
+    sex: female
+- 
+    id: Bobby
+    status: affected
+    sex: female
+    father: *dad
+    mother: *mom
+
+cases:
+-
+  name: de-novo-test
+  description: simple de-novo
+  alts: [[0, 0, 1], [0, 0, 2]]
+  modes: ["de-novo"]
+  not-modes: ["autosomal-recessive"]
+-
+  name: de-novo-test-exclude
+  description: not de-novo
+  alts: [[2, 1, 2], [2, 1, 1], [2, 1, 0], [1, 1, 1], [1, 1, 0], [0, 0, 0], [1, 0, 0], [0, 1, 2], [1, 0, 1]]
+  modes: []
+  not-modes: ["de-novo"]
+
+
+#[0, 0, 0]    [0, 0, 1]    [0, 0, 2]    [0, 1, 0]    [0, 1, 1]    [0, 1, 2]    [0, 2, 0]    [0, 2, 1]    [0, 2, 2]
+#[1, 0, 0]    [1, 0, 1]    [1, 0, 2]    [1, 1, 0]    [1, 1, 1]    [1, 1, 2]    [1, 2, 0]    [1, 2, 1]    [1, 2, 2]
+#[2, 0, 0]    [2, 0, 1]    [2, 0, 2]    [2, 1, 0]    [2, 1, 1]    [2, 1, 2]    [2, 2, 0]    [2, 2, 1]    [2, 2, 2]
+

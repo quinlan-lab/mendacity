@@ -1,0 +1,35 @@
+pedigree:
+- &dad
+    id: Fred
+    status: unaffected
+    sex: male
+- &mom
+    id: Alice
+    status: affected
+    sex: female
+-
+    id: Bobby
+    status: affected
+    sex: female
+    father: *dad
+    mother: *mom
+
+cases:
+-
+  name: ad-test
+  description: simple autosomal-dominant
+  alts: [[0, 1, 1], [0, 2, 2], [0, 1, 2]]
+  modes: ["autosomal-dominant"]
+  not-modes: ["autosomal-recessive"]
+-
+  name: ad-test-exclude
+  description: not autosomal-dominant
+  alts: [[2, 1, 2], [2, 1, 1], [2, 1, 0], [1, 1, 1], [1, 1, 0], [0, 0, 0], [1, 0, 0], [0, 0, 2], [0, 0, 1]]
+  modes: []
+  not-modes: ["autosomal-dominant"]
+
+
+#[0, 0, 0]    [0, 0, 1]    [0, 0, 2]    [0, 1, 0]    [0, 1, 1]    [0, 1, 2]    [0, 2, 0]    [0, 2, 1]    [0, 2, 2]
+#[1, 0, 0]    [1, 0, 1]    [1, 0, 2]    [1, 1, 0]    [1, 1, 1]    [1, 1, 2]    [1, 2, 0]    [1, 2, 1]    [1, 2, 2]
+#[2, 0, 0]    [2, 0, 1]    [2, 0, 2]    [2, 1, 0]    [2, 1, 1]    [2, 1, 2]    [2, 2, 0]    [2, 2, 1]    [2, 2, 2]
+
